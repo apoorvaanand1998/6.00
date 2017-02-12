@@ -257,8 +257,18 @@ def find_best_shift(wordlist, text):
     >>> apply_coder(s, build_decoder(8)) returns
     'Hello, world!'
     """
-    ### TODO
-   
+    best_score = 0
+    best_shift = 0
+    for shift in range(27):
+        curr_score = 0
+        for word in apply_shift(text, shift).split():
+            if is_word(wordlist, word):
+                curr_score += 1
+        if curr_score > best_score:
+            best_score = curr_score
+            best_shift = shift
+    return best_shift
+
 #
 # Problem 3: Multi-level encryption.
 #
@@ -343,7 +353,6 @@ def decrypt_fable():
     """
     ### TODO.
 
-    
 #What is the moral of the story?
 #
 #
