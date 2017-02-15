@@ -120,10 +120,8 @@ def build_coder(shift):
     'v': 'y', 'y': 'a', 'x': ' ', 'z': 'b'}
     (The order of the key-value pairs may be different.)
     """
-    lower = list(string.ascii_lowercase)
-    upper = list(string.ascii_uppercase)
-    lower.append(" ")
-    upper.append(" ")
+    lower = string.ascii_lowercase + " "
+    upper = string.ascii_uppercase + " "
     res_dict = {}
     for i in range(len(lower)):
 		if (i+shift) < 27 and (i+shift) > -27:
@@ -288,8 +286,12 @@ def apply_shifts(text, shifts):
     >>> apply_shifts("Do Androids Dream of Electric Sheep?", [(0,6), (3, 18), (12, 16)])
     'JufYkaolfapxQdrnzmasmRyrpfdvpmEurrb?'
     """
-    ### TODO.
- 
+    ans = list(text)
+    for (a, b) in shifts:
+        for i in range (a, len(text)):
+            ans[i] = build_encoder(b).get(ans[i], ans[i])
+    return "".join(ans)
+            
 #
 # Problem 4: Multi-level decryption.
 #
@@ -353,6 +355,7 @@ def decrypt_fable():
     """
     ### TODO.
 
+print apply_shifts("Do Androids Dream of Electric Sheep?", [(0,6), (3, 18), (12, 16)])
 #What is the moral of the story?
 #
 #
