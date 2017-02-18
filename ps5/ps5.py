@@ -90,6 +90,7 @@ class WordTrigger(Trigger):
     
     def is_word_in(self, text):
         word = self.word.lower()
+        text = text.lower()
         
         for punc in string.punctuation:
             text = text.replace(punc, " ")
