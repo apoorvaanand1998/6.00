@@ -101,30 +101,55 @@ class WordTrigger(Trigger):
 class TitleTrigger(WordTrigger):
     
     def evaluate(self, story):
-        return self.is_word_in(story.get_title())
+        return self.is_word_in(NewsStory.get_title())
         
 class SubjectTrigger(WordTrigger):
 
     def evaluate(self, story):
-        return self.is_word_in(story.get_subject())
+        return self.is_word_in(NewsStory.get_subject())
     
 class SummaryTrigger(WordTrigger):
 
     def evaluate(self, story):
-        return self.is_word_in(story.get_summary())
+        return self.is_word_in(NewsStory.get_summary())
 
 # Composite Triggers
 # Problems 6-8
 
-# TODO: NotTrigger
-# TODO: AndTrigger
-# TODO: OrTrigger
+class NotTrigger(Trigger):
+    def __init__(self, trigger):
+        self.t = trigger
 
+    def evaluate(self, story):
+        return not self.t.evaluate(story)
+    
+class AndTrigger(Trigger):
+    def __init__(self, trigger1, trigger2):
+        self.t1 = trigger1
+        self.t2 = trigger2
+
+    def evaluate(self, story):
+        return self.t1.evaluate(story) and self.t2.evaluate(story)
+    
+class OrTrigger(Trigger):
+    def __init__(self, trigger1, trigger2):
+        self.t1 = trigger1
+        self.t2 = trigger2
+
+    def evaluate(self, story):
+        return self.t1.evaluate(story) or self.t2.evaluate(story)
 
 # Phrase Trigger
 # Question 9
 
-# TODO: PhraseTrigger
+class PhraseTrigger(Trigger):
+    def __init__(self, phrase):
+        self.phrase = phrase
+
+    def evaluate(self, story):
+        return self.phrase in story.get_title() or \
+               self.phrase in story.get_summary() or \
+               self.phrase in story.get_subject()
 
 
 #======================
