@@ -98,10 +98,20 @@ class WordTrigger(Trigger):
         
         return word in split_text        
 
-# TODO: TitleTrigger
-# TODO: SubjectTrigger
-# TODO: SummaryTrigger
+class TitleTrigger(WordTrigger):
+    
+    def evaluate(self, story):
+        return self.is_word_in(story.get_title())
+        
+class SubjectTrigger(WordTrigger):
 
+    def evaluate(self, story):
+        return self.is_word_in(story.get_subject())
+    
+class SummaryTrigger(WordTrigger):
+
+    def evaluate(self, story):
+        return self.is_word_in(story.get_summary())
 
 # Composite Triggers
 # Problems 6-8
