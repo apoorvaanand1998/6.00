@@ -128,8 +128,8 @@ def build_coder(shift):
 			res_dict[lower[i]] = lower[i+shift]
 			res_dict[upper[i]] = upper[i+shift]
 		else:
-			res_dict[lower[i]] = lower[i+shift-27]
-			res_dict[upper[i]] = upper[i+shift-27]
+			res_dict[lower[i]] = lower[(i+shift)%26+1]
+			res_dict[upper[i]] = upper[(i+shift)%26+1]
     return res_dict
 		
 		
@@ -257,7 +257,7 @@ def find_best_shift(wordlist, text):
     """
     best_score = 0
     best_shift = 0
-    for shift in range(27):
+    for shift in range(28):
         curr_score = 0
         for word in apply_shift(text, shift).split():
             if is_word(wordlist, word):
@@ -325,7 +325,9 @@ def find_best_shifts(wordlist, text):
     >>> print apply_shifts(s, shifts)
     Do Androids Dream of Electric Sheep?
     """
+    return find_best_shifts_rec(wordlist, text, 0)
 
+ans = []
 def find_best_shifts_rec(wordlist, text, start):
     """
     Given a scrambled string and a starting position from which
@@ -340,26 +342,17 @@ def find_best_shifts_rec(wordlist, text, start):
     start: where to start looking at shifts
     returns: list of tuples.  each tuple is (position in text, amount of shift)
     """
-    ### TODO.
+    global ans 
+    for shift in range (28):
+        currtext = apply_shift(text[start:], -shift)
+        currtext_split = currtext.split()
+        print currtext
+        print currtext_split
+        if is_word(wordlist, currtext):
+            return ans
+        if is_word(wordlist, currtext_split[0]):
+            ans.append((start, -shift))
+            return find_best_shifts_rec(wordlist, currtext, start+len(currtext_split[0])+1)
+            
 
-
-def decrypt_fable():
-     """
-    Using the methods you created in this problem set,
-    decrypt the fable given by the function get_fable_string().
-    Once you decrypt the message, be sure to include as a comment
-    at the end of this problem set how the fable relates to your
-    education at MIT.
-
-    returns: string - fable in plain text
-    """
-    ### TODO.
-
-print apply_shifts("Do Androids Dream of Electric Sheep?", [(0,6), (3, 18), (12, 16)])
-#What is the moral of the story?
-#
-#
-#
-#
-#
 
